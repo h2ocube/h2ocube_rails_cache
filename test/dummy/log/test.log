@@ -1,0 +1,132 @@
+Error compiling asset jquery_test.js:
+Sprockets::FileNotFound: couldn't find file 'jquery/1'
+  (in /Users/ben/h2ocube_rails_assets/vendor/assets/javascripts/jquery.js:1)
+Error compiling asset jquery.ui_test.js:
+Sprockets::FileNotFound: couldn't find file 'jquery.ui'
+  (in /Users/ben/h2ocube_rails_assets/test/dummy/app/assets/javascripts/jquery.ui_test.coffee:1)
+Error compiling asset jquery_test.js:
+Sprockets::FileNotFound: couldn't find file 'jquery'
+  (in /Users/ben/h2ocube_rails_assets/test/dummy/app/assets/javascripts/jquery_test.coffee:1)
+Error compiling asset jquery-turbolinks_test.js:
+Sprockets::FileNotFound: couldn't find file 'jquery.turbolinks'
+  (in /Users/ben/h2ocube_rails_assets/test/dummy/app/assets/javascripts/jquery-turbolinks_test.js:1)
+Error compiling asset jquery.ui_test.js:
+Sprockets::FileNotFound: couldn't find file 'jquery.ui'
+  (in /Users/ben/h2ocube_rails_assets/test/dummy/app/assets/javascripts/jquery.ui_test.coffee:1)
+Error compiling asset jquery_test.js:
+Sprockets::FileNotFound: couldn't find file 'jquery'
+  (in /Users/ben/h2ocube_rails_assets/test/dummy/app/assets/javascripts/jquery_test.coffee:1)
+Error compiling asset jquery-turbolinks_test.js:
+Sprockets::FileNotFound: couldn't find file 'jquery.turbolinks'
+  (in /Users/ben/h2ocube_rails_assets/test/dummy/app/assets/javascripts/jquery-turbolinks_test.js:1)
+Error compiling asset jquery.ui_test.js:
+Sprockets::FileNotFound: couldn't find file 'jquery.ui'
+  (in /Users/ben/h2ocube_rails_assets/test/dummy/app/assets/javascripts/jquery.ui_test.coffee:1)
+Error compiling asset jquery_test.js:
+Sprockets::FileNotFound: couldn't find file 'jquery'
+  (in /Users/ben/h2ocube_rails_assets/test/dummy/app/assets/javascripts/jquery_test.coffee:1)
+Error compiling asset jquery-turbolinks_test.js:
+Sprockets::FileNotFound: couldn't find file 'jquery.turbolinks'
+  (in /Users/ben/h2ocube_rails_assets/test/dummy/app/assets/javascripts/jquery-turbolinks_test.js:1)
+Error compiling asset jquery.ui_test.js:
+Sprockets::FileNotFound: couldn't find file 'jquery.ui'
+  (in /Users/ben/h2ocube_rails_assets/test/dummy/app/assets/javascripts/jquery.ui_test.coffee:1)
+Error compiling asset jquery_test.js:
+Sprockets::FileNotFound: couldn't find file 'jquery'
+  (in /Users/ben/h2ocube_rails_assets/test/dummy/app/assets/javascripts/jquery_test.coffee:1)
+Error compiling asset jquery-turbolinks_test.js:
+Sprockets::FileNotFound: couldn't find file 'jquery.turbolinks'
+  (in /Users/ben/h2ocube_rails_assets/test/dummy/app/assets/javascripts/jquery-turbolinks_test.js:1)
+Error compiling asset jquery.ui_test.js:
+Sprockets::FileNotFound: couldn't find file 'jquery.ui'
+  (in /Users/ben/h2ocube_rails_assets/test/dummy/app/assets/javascripts/jquery.ui_test.coffee:1)
+Error compiling asset jquery_test.js:
+Sprockets::FileNotFound: couldn't find file 'jquery'
+  (in /Users/ben/h2ocube_rails_assets/test/dummy/app/assets/javascripts/jquery_test.coffee:1)
+Error compiling asset jquery-turbolinks_test.js:
+Sprockets::FileNotFound: couldn't find file 'jquery.turbolinks'
+  (in /Users/ben/h2ocube_rails_assets/test/dummy/app/assets/javascripts/jquery-turbolinks_test.js:1)
+Error compiling asset jquery.ui_test.js:
+Sprockets::FileNotFound: couldn't find file 'jquery.ui'
+  (in /Users/ben/h2ocube_rails_assets/test/dummy/app/assets/javascripts/jquery.ui_test.coffee:1)
+Error compiling asset jquery_test.js:
+Sprockets::FileNotFound: couldn't find file 'jquery'
+  (in /Users/ben/h2ocube_rails_assets/test/dummy/app/assets/javascripts/jquery_test.coffee:1)
+Error compiling asset jquery-turbolinks_test.js:
+Sprockets::FileNotFound: couldn't find file 'jquery.turbolinks'
+  (in /Users/ben/h2ocube_rails_assets/test/dummy/app/assets/javascripts/jquery-turbolinks_test.js:1)
+Error compiling asset jquery.ui_test.js:
+Sprockets::FileNotFound: couldn't find file 'jquery.ui'
+  (in /Users/ben/h2ocube_rails_assets/test/dummy/app/assets/javascripts/jquery.ui_test.coffee:1)
+Error compiling asset jquery_test.js:
+Sprockets::FileNotFound: couldn't find file 'jquery'
+  (in /Users/ben/h2ocube_rails_assets/test/dummy/app/assets/javascripts/jquery_test.coffee:1)
+Error compiling asset jquery-turbolinks_test.js:
+Sprockets::FileNotFound: couldn't find file 'jquery.turbolinks'
+  (in /Users/ben/h2ocube_rails_assets/test/dummy/app/assets/javascripts/jquery-turbolinks_test.js:1)
+Error compiling asset jquery.ui_test.js:
+Sprockets::FileNotFound: couldn't find file 'jquery.ui'
+  (in /Users/ben/h2ocube_rails_assets/test/dummy/app/assets/javascripts/jquery.ui_test.coffee:1)
+Error compiling asset jquery_test.js:
+Sprockets::FileNotFound: couldn't find file 'jquery'
+  (in /Users/ben/h2ocube_rails_assets/test/dummy/app/assets/javascripts/jquery_test.coffee:1)
+Error compiling asset jquery-turbolinks_test.js:
+Sprockets::FileNotFound: couldn't find file 'jquery.turbolinks'
+  (in /Users/ben/h2ocube_rails_assets/test/dummy/app/assets/javascripts/jquery-turbolinks_test.js:1)
+Error compiling asset jquery.ui_test.js:
+Sprockets::FileNotFound: couldn't find file 'jquery.ui'
+  (in /Users/ben/h2ocube_rails_assets/test/dummy/app/assets/javascripts/jquery.ui_test.coffee:1)
+Error compiling asset jquery_test.js:
+Sprockets::FileNotFound: couldn't find file 'jquery'
+  (in /Users/ben/h2ocube_rails_assets/test/dummy/app/assets/javascripts/jquery_test.coffee:1)
+Error compiling asset jquery-turbolinks_test.js:
+Sprockets::FileNotFound: couldn't find file 'jquery.turbolinks'
+  (in /Users/ben/h2ocube_rails_assets/test/dummy/app/assets/javascripts/jquery-turbolinks_test.js:1)
+Error compiling asset jquery.ui_test.js:
+Sprockets::FileNotFound: couldn't find file 'jquery.ui'
+  (in /Users/ben/h2ocube_rails_assets/test/dummy/app/assets/javascripts/jquery.ui_test.coffee:1)
+Error compiling asset jquery_test.js:
+Sprockets::FileNotFound: couldn't find file 'jquery'
+  (in /Users/ben/h2ocube_rails_assets/test/dummy/app/assets/javascripts/jquery_test.coffee:1)
+Error compiling asset jquery-turbolinks_test.js:
+Sprockets::FileNotFound: couldn't find file 'jquery.turbolinks'
+  (in /Users/ben/h2ocube_rails_assets/test/dummy/app/assets/javascripts/jquery-turbolinks_test.js:1)
+Error compiling asset jquery.ui_test.js:
+Sprockets::FileNotFound: couldn't find file 'jquery.ui'
+  (in /Users/ben/h2ocube_rails_assets/test/dummy/app/assets/javascripts/jquery.ui_test.coffee:1)
+Error compiling asset jquery_test.js:
+Sprockets::FileNotFound: couldn't find file 'jquery'
+  (in /Users/ben/h2ocube_rails_assets/test/dummy/app/assets/javascripts/jquery_test.coffee:1)
+Error compiling asset jquery-turbolinks_test.js:
+Sprockets::FileNotFound: couldn't find file 'jquery.turbolinks'
+  (in /Users/ben/h2ocube_rails_assets/test/dummy/app/assets/javascripts/jquery-turbolinks_test.js:1)
+Error compiling asset jquery.ui_test.js:
+Sprockets::FileNotFound: couldn't find file 'jquery.ui'
+  (in /Users/ben/h2ocube_rails_assets/test/dummy/app/assets/javascripts/jquery.ui_test.coffee:1)
+Error compiling asset jquery_test.js:
+Sprockets::FileNotFound: couldn't find file 'jquery'
+  (in /Users/ben/h2ocube_rails_assets/test/dummy/app/assets/javascripts/jquery_test.coffee:1)
+Error compiling asset jquery-turbolinks_test.js:
+Sprockets::FileNotFound: couldn't find file 'jquery.turbolinks'
+  (in /Users/ben/h2ocube_rails_assets/test/dummy/app/assets/javascripts/jquery-turbolinks_test.js:1)
+Error compiling asset jquery.ui_test.js:
+Sprockets::FileNotFound: couldn't find file 'jquery.ui'
+  (in /Users/ben/h2ocube_rails_assets/test/dummy/app/assets/javascripts/jquery.ui_test.coffee:1)
+Error compiling asset jquery_test.js:
+Sprockets::FileNotFound: couldn't find file 'jquery'
+  (in /Users/ben/h2ocube_rails_assets/test/dummy/app/assets/javascripts/jquery_test.coffee:1)
+Error compiling asset jquery-turbolinks_test.js:
+Sprockets::FileNotFound: couldn't find file 'jquery.turbolinks'
+  (in /Users/ben/h2ocube_rails_assets/test/dummy/app/assets/javascripts/jquery-turbolinks_test.js:1)
+Error compiling asset jquery.ui_test.js:
+Sprockets::FileNotFound: couldn't find file 'jquery.ui'
+  (in /Users/ben/h2ocube_rails_assets/test/dummy/app/assets/javascripts/jquery.ui_test.coffee:1)
+Error compiling asset jquery_test.js:
+Sprockets::FileNotFound: couldn't find file 'jquery'
+  (in /Users/ben/h2ocube_rails_assets/test/dummy/app/assets/javascripts/jquery_test.coffee:1)
+Error compiling asset jquery-turbolinks_test.js:
+Sprockets::FileNotFound: couldn't find file 'jquery.turbolinks'
+  (in /Users/ben/h2ocube_rails_assets/test/dummy/app/assets/javascripts/jquery-turbolinks_test.js:1)
+
+***** Debugger requested, but was not available (ensure ruby-debug is listed in Gemfile/installed as gem): Start server with --debugger to enable *****
+

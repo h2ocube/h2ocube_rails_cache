@@ -24,17 +24,17 @@ module ActiveSupport
         @data.set key, Marshal.dump(entry)
         true
       end
-      
+
       def delete(name, options = nil)
         @data.keys(name).each{ |k| @data.del k }
       end
-      
+
       def exist?(name, options = nil)
         @data.exists name
       end
-      
+
       def clear
-        @data.flushdb
+        @data.keys('*').each{ |k| @data.del k }
       end
     end
   end
