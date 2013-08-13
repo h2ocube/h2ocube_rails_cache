@@ -6,11 +6,7 @@ Just an redis cache.
 
 Add this line to your application's Gemfile:
 
-    gem 'h2ocube_rails_cache'
-
-Add this line to config/environments/production.rb:
-
-    config.cache_store = :h2ocube_rails_cache
+    gem 'h2ocube_rails_cache', group: :production
 
 And then execute:
 

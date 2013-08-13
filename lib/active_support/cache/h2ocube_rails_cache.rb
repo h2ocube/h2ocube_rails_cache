@@ -10,6 +10,10 @@ module ActiveSupport
         @data = Redis::Namespace.new(Rails.application.class.to_s.split("::").first << ':Cache')
       end
 
+      def keys key = '*'
+        @data.keys key
+      end
+
       def read(key, options = nil)
         return nil if key.start_with?('http')
         if exist? key
@@ -27,6 +31,7 @@ module ActiveSupport
 
       def delete(name, options = nil)
         @data.keys(name).each{ |k| @data.del k }
+        true
       end
 
       def exist?(name, options = nil)
@@ -35,6 +40,7 @@ module ActiveSupport
 
       def clear
         @data.keys('*').each{ |k| @data.del k }
+        true
       end
     end
   end

@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |gem|
   gem.name          = 'h2ocube_rails_cache'
-  gem.version       = '0.0.1'
+  gem.version       = '0.0.2'
   gem.authors       = ['Ben']
   gem.email         = ['ben@h2ocube.com']
   gem.description   = 'Just an redis cache.'
@@ -19,5 +19,5 @@ Gem::Specification.new do |gem|
 
   gem.add_dependency 'redis-namespace'
 
-  %w(rails minitest capybara).each{ |g| gem.add_development_dependency g }
+  %w(rails minitest).each{ |g| gem.add_development_dependency g }
 end
