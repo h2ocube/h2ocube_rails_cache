@@ -1,5 +1,8 @@
 # H2ocubeRailsCache
 
+[![Gem Version](https://badge.fury.io/rb/h2ocube_rails_cache.png)](http://badge.fury.io/rb/h2ocube_rails_cache)
+[![Build Status](https://travis-ci.org/h2ocube/h2ocube_rails_cache.png?branch=master)](https://travis-ci.org/h2ocube/h2ocube_rails_cache)
+
 Just an redis cache.
 
 ## Installation
