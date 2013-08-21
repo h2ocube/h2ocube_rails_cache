@@ -27,10 +27,12 @@ module Rack
       def get_session(env, sid)
         with_lock(env, [nil, {}]) do
           unless sid and session = @pool.get(sid)
-            sid, session = generate_sid, {}
-            unless /^OK/ =~ @pool.set(sid, session, @default_options)
+            sid, session = generate_sid, Hash.new
+            unless /^OK/ =~ @pool.set(sid, Marshal.dump(session), @default_options)
               raise "Session collision on '#{sid.inspect}'"
             end
+          else
+            session = Marshal.load(session)
           end
           [sid, session]
         end
@@ -38,7 +40,7 @@ module Rack
 
       def set_session(env, session_id, new_session, options)
         with_lock(env, false) do
-          @pool.set session_id, new_session, options
+          @pool.set session_id, Marshal.dump(new_session), options
           session_id
         end
       end
