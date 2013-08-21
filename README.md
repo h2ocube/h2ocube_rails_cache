@@ -15,6 +15,8 @@ And then execute:
 
     $ bundle
 
+Disable default session_store in config/initializers/session_store.rb
+
 ## Contributing
 
 1. Fork it
