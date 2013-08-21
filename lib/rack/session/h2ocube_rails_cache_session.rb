@@ -7,6 +7,9 @@ module Rack
     class H2ocubeRailsCacheSession < Abstract::ID
       attr_reader :mutex, :pool
 
+      DEFAULT_OPTIONS = Abstract::ID::DEFAULT_OPTIONS.merge \
+        expire_after: 30.days
+
       def initialize(app, options = nil)
         super
 

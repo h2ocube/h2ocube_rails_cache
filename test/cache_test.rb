@@ -39,3 +39,10 @@ describe 'h2ocube_rails_cache' do
     Rails.cache.read('a').must_be_nil
   end
 end
+
+describe ApplicationController do
+  it 'get home' do
+    get :home
+    assert_response :success
+  end
+end

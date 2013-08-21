@@ -19,5 +19,5 @@ Gem::Specification.new do |gem|
 
   gem.add_dependency 'redis-namespace'
 
-  %w(rails minitest).each{ |g| gem.add_development_dependency g }
+  %w(rails minitest-rails).each{ |g| gem.add_development_dependency g }
 end

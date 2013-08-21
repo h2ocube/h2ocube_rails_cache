@@ -130,3 +130,9 @@ Sprockets::FileNotFound: couldn't find file 'jquery.turbolinks'
 
 ***** Debugger requested, but was not available (ensure ruby-debug is listed in Gemfile/installed as gem): Start server with --debugger to enable *****
 
+Processing by ApplicationController#home as HTML
+  Rendered application/home.html.erb within layouts/application (1.3ms)
+Completed 200 OK in 10ms (Views: 9.4ms)
+Processing by ApplicationController#home as HTML
+  Rendered application/home.html.erb within layouts/application (1.2ms)
+Completed 200 OK in 10ms (Views: 9.4ms)
