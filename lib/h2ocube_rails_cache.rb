@@ -6,16 +6,11 @@ require 'action_dispatch/middleware/session/h2ocube_rails_cache_session'
 class Redis
   class Store < self
     def set(key, value, options = nil)
-      if ttl = expires_in(options)
+      if ttl = options[:expire_after] || options[:expires_in] || options[:expire_in] || nil
         setex(key, ttl.to_i, value)
       else
         super(key, value)
       end
-    end
-
-    private
-    def expires_in(options)
-      options[:expire_after] || options[:expires_in] || options[:expire_in] if options
     end
   end
 end
