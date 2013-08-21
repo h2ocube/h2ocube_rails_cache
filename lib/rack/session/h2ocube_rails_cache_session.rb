@@ -14,7 +14,7 @@ module Rack
         super
 
         @mutex = Mutex.new
-        @pool = Redis::Namespace.new(Rails.application.class.to_s.split("::").first << ':Session')
+        @pool = Redis::Namespace.new(Rails.application.class.to_s.split("::").first << ':Session', redis: Redis::Store.new)
       end
 
       def generate_sid
@@ -62,7 +62,6 @@ module Rack
       ensure
         @mutex.unlock if @mutex.locked?
       end
-
     end
   end
 end

@@ -7,7 +7,7 @@ module ActiveSupport
       def initialize(options = nil, &blk)
         options ||= {}
         super(options)
-        @data = Redis::Namespace.new(Rails.application.class.to_s.split("::").first << ':Cache')
+        @data = Redis::Namespace.new(Rails.application.class.to_s.split("::").first << ':Cache', redis: Redis::Store.new)
       end
 
       def keys key = '*'
@@ -25,7 +25,7 @@ module ActiveSupport
 
       def write(key, entry, options = nil)
         return false if key.start_with?('http')
-        @data.set key, Marshal.dump(entry)
+        @data.set key, Marshal.dump(entry), options
         true
       end
 

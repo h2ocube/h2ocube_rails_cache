@@ -38,6 +38,13 @@ describe 'h2ocube_rails_cache' do
 
     Rails.cache.read('a').must_be_nil
   end
+
+  it 'expire' do
+    Rails.cache.write 'expire', 1, expires_in: 1
+    Rails.cache.exist?('expire').must_be_same_as true
+    sleep 1
+    Rails.cache.exist?('expire').must_be_same_as false
+  end
 end
 
 describe ApplicationController do
