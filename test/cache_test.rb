@@ -8,7 +8,8 @@ describe 'h2ocube_rails_cache' do
   end
 
   it 'should work' do
-    true
+    Dummy::Application.config.cache_store.to_s.must_equal 'h2ocube_rails_cache'
+    Dummy::Application.config.session_store.to_s.must_equal 'ActionDispatch::Session::H2ocubeRailsCacheSession'
   end
 
   it '.keys' do
