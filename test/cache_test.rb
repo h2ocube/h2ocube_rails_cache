@@ -8,8 +8,8 @@ describe 'h2ocube_rails_cache' do
   end
 
   it 'should work' do
-    Dummy::Application.config.cache_store.to_s.must_equal 'h2ocube_rails_cache'
-    Dummy::Application.config.session_store.to_s.must_equal 'ActionDispatch::Session::H2ocubeRailsCacheSession'
+    Rails.cache.class.to_s.must_equal 'ActiveSupport::Cache::H2ocubeRailsCache'
+    Rails.application.config.session_store.to_s.must_equal 'ActionDispatch::Session::H2ocubeRailsCacheSession'
   end
 
   it '.keys' do
@@ -40,6 +40,7 @@ describe 'h2ocube_rails_cache' do
   end
 
   it 'expire' do
+    Rails.cache.delete 'expire'
     Rails.cache.write 'expire', 1, expires_in: 1
     Rails.cache.exist?('expire').must_be_same_as true
     sleep 1

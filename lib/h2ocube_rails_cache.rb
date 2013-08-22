@@ -21,5 +21,9 @@ module H2ocubeRailsCache
       app.config.cache_store = :h2ocube_rails_cache
       app.config.session_store :h2ocube_rails_cache_session
     end
+
+    rake_tasks do
+      load 'tasks/tmp'
+    end
   end
 end

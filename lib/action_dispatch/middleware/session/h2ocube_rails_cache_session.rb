@@ -11,6 +11,12 @@ module ActionDispatch
         options = options.dup
         super
       end
+
+      def self.clear
+        r = Redis::Namespace.new(Rails.application.class.to_s.split("::").first << ':Session', redis: Redis::Store.new)
+        r.keys('*').each{ |k| r.del k }
+        true
+      end
     end
   end
 end
