@@ -17,6 +17,11 @@ And then execute:
 
 Disable default session_store in config/initializers/session_store.rb
 
+## Task changed
+
+    rake tmp:sessions:clear # will clear redis session data too
+    rake tmp:cache:clear # will run Rails.clear too
+
 ## Contributing
 
 1. Fork it

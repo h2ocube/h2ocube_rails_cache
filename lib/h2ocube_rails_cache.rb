@@ -23,7 +23,7 @@ module H2ocubeRailsCache
     end
 
     rake_tasks do
-      load 'tasks/tmp'
+      load 'tasks/tmp.rake'
     end
   end
 end
