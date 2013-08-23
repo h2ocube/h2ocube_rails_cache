@@ -14,7 +14,7 @@ module ActiveSupport
         @data.keys key
       end
 
-      def read(key, options = nil)
+      def read key, options = nil
         return nil if key.start_with?('http')
         if exist? key
           Marshal.load(@data.get key)
@@ -23,18 +23,18 @@ module ActiveSupport
         end
       end
 
-      def write(key, entry, options = nil)
+      def write key, entry, options = nil
         return false if key.start_with?('http')
         @data.set key, Marshal.dump(entry), options
         true
       end
 
-      def delete(name, options = nil)
+      def delete name, options = nil
         @data.keys(name).each{ |k| @data.del k }
         true
       end
 
-      def exist?(name, options = nil)
+      def exist? name, options = nil
         @data.exists name
       end
 
@@ -42,6 +42,10 @@ module ActiveSupport
         @data.keys('*').each{ |k| @data.del k }
         true
       end
+
+      alias_method :read_entry, :read
+      alias_method :write_entry, :write
+      alias_method :delete_entry, :delete
     end
   end
 end
