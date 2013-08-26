@@ -15,6 +15,7 @@ module ActiveSupport
       end
 
       def read key, options = nil
+        key = expanded_key key
         return nil if key.start_with?('http')
         if exist? key
           Marshal.load(@data.get key)
@@ -24,6 +25,7 @@ module ActiveSupport
       end
 
       def write key, entry, options = nil
+        key = expanded_key key
         return false if key.start_with?('http')
         @data.set key, Marshal.dump(entry), options
         true
@@ -41,6 +43,10 @@ module ActiveSupport
       def clear
         @data.keys('*').each{ |k| @data.del k }
         true
+      end
+
+      def info
+        @data.info
       end
 
       alias_method :read_entry, :read

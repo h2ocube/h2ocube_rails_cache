@@ -46,6 +46,16 @@ describe 'h2ocube_rails_cache' do
     sleep 1
     Rails.cache.exist?('expire').must_be_same_as false
   end
+
+  it 'key class' do
+    Rails.cache.write ['a', 0], 'a0'
+    Rails.cache.keys[0].must_equal 'a/0'
+    Rails.cache.clear
+
+    Rails.cache.write({a: 0}, 'a0')
+    Rails.cache.keys[0].must_equal 'a=0'
+    Rails.cache.clear
+  end
 end
 
 describe ApplicationController do
