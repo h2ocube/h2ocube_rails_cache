@@ -5,6 +5,7 @@ describe 'h2ocube_rails_cache' do
     @redis = Redis.new
     @cache_key = Rails.application.class.to_s.split("::").first << ':Cache'
     @cache = Redis::Namespace.new(@cache_key)
+    Rails.cache.clear
   end
 
   it 'should work' do
@@ -24,13 +25,13 @@ describe 'h2ocube_rails_cache' do
   end
 
   it '.write, .exist?, .read and .delete' do
-    Rails.cache.write('a', 'true').must_be_same_as true
+    Rails.cache.write('a', true).must_be_same_as true
 
     Rails.cache.exist?('a').must_be_same_as true
 
-    Rails.cache.read('a').must_equal 'true'
+    Rails.cache.read('a').must_equal true
 
-    Marshal.load(@redis.get("#{@cache_key}:a")).must_equal 'true'
+    Marshal.load(@redis.get("#{@cache_key}:a")).must_equal true
 
     Rails.cache.delete('a').must_be_same_as true
 
@@ -55,6 +56,32 @@ describe 'h2ocube_rails_cache' do
     Rails.cache.write({a: 0}, 'a0')
     Rails.cache.keys[0].must_equal 'a=0'
     Rails.cache.clear
+  end
+
+  it 'value class' do
+    Rails.cache.write 'String', 'String'
+    Rails.cache.read_raw('String').must_be_kind_of String
+
+    Rails.cache.write 'Fixnum', 1
+    Rails.cache.read('Fixnum').must_be_kind_of Fixnum
+
+    Rails.cache.write 'Float', 1.1
+    Rails.cache.read('Float').must_be_kind_of Float
+  end
+
+  it 'increment' do
+    Rails.cache.write 'number', 1
+    Rails.cache.increment 'number'
+    Rails.cache.read('number').must_equal 2
+
+    Rails.cache.decrement 'number'
+    Rails.cache.read('number').must_equal 1
+
+    Rails.cache.increment 'number', 2
+    Rails.cache.read('number').must_equal 3
+
+    Rails.cache.decrement 'number', 2
+    Rails.cache.read('number').must_equal 1
   end
 end
 
