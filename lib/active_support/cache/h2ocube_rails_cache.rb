@@ -14,6 +14,15 @@ module ActiveSupport
         @data.keys key
       end
 
+      def fetch key, options = nil
+        if block_given?
+          unless exist?(key, options)
+            write key, yield, options
+          end
+        end
+        read key, options
+      end
+
       def read key, options = nil
         key = expanded_key key
         return nil if key.start_with?('http')
@@ -70,7 +79,6 @@ module ActiveSupport
         end
       end
 
-      alias_method :fetch, :read
       alias_method :read_entry, :read
       alias_method :write_entry, :write
       alias_method :delete_entry, :delete

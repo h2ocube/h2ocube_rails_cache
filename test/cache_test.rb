@@ -83,6 +83,14 @@ describe 'h2ocube_rails_cache' do
     Rails.cache.decrement 'number', 2
     Rails.cache.read('number').must_equal 1
   end
+
+  it 'fetch' do
+    Rails.cache.fetch 'fetch' do
+      'fetch content'
+    end.must_equal 'fetch content'
+
+    Rails.cache.read('fetch').must_equal 'fetch content'
+  end
 end
 
 describe ApplicationController do
