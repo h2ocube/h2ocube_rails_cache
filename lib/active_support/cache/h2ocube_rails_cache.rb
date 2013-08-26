@@ -70,6 +70,7 @@ module ActiveSupport
         end
       end
 
+      alias_method :fetch, :read
       alias_method :read_entry, :read
       alias_method :write_entry, :write
       alias_method :delete_entry, :delete
