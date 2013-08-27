@@ -11,15 +11,13 @@ module ActiveSupport
       end
 
       def keys key = '*'
+        key = expanded_key key
         @data.keys key
       end
 
       def fetch key, options = nil
-        if block_given?
-          unless exist?(key, options)
-            write key, yield, options
-          end
-        end
+        key = expanded_key key
+        write key, yield, options if block_given? && !exist?(key)
         read key, options
       end
 
@@ -34,6 +32,7 @@ module ActiveSupport
       end
 
       def read_raw key, options = nil
+        key = expanded_key key
         @data.get key
       end
 
@@ -45,13 +44,15 @@ module ActiveSupport
         true
       end
 
-      def delete name, options = nil
-        @data.keys(name).each{ |k| @data.del k }
+      def delete key, options = nil
+        key = expanded_key key
+        @data.keys(key).each{ |k| @data.del k }
         true
       end
 
-      def exist? name, options = nil
-        @data.exists name
+      def exist? key, options = nil
+        key = expanded_key key
+        @data.exists key
       end
 
       def clear
@@ -64,6 +65,7 @@ module ActiveSupport
       end
 
       def increment key, amount = 1, options = nil
+        key = expanded_key key
         if amount == 1
           @data.incr key
         else
@@ -72,6 +74,7 @@ module ActiveSupport
       end
 
       def decrement key, amount = 1, options = nil
+        key = expanded_key key
         if amount == 1
           @data.decr key
         else

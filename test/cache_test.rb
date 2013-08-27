@@ -90,6 +90,13 @@ describe 'h2ocube_rails_cache' do
     end.must_equal 'fetch content'
 
     Rails.cache.read('fetch').must_equal 'fetch content'
+
+    Rails.cache.fetch 'fetch expire', expires_in: 1.seconds do
+      'fetch content'
+    end.must_equal 'fetch content'
+    Rails.cache.read('fetch expire').must_equal 'fetch content'
+    sleep 2
+    Rails.cache.exist?('fetch expire').must_be_same_as false
   end
 end
 
