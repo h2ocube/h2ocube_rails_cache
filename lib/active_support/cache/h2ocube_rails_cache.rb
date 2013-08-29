@@ -89,6 +89,7 @@ module ActiveSupport
       private
 
       def dump_entry entry
+        entry = entry.call if entry.class.to_s == 'Proc'
         case entry.class.to_s
         when 'String', 'Fixnum', 'Float'
           entry

@@ -67,6 +67,9 @@ describe 'h2ocube_rails_cache' do
 
     Rails.cache.write 'Float', 1.1
     Rails.cache.read('Float').must_be_kind_of Float
+
+    Rails.cache.write 'Proc', Proc.new{ 1 }
+    Rails.cache.read('Proc').must_equal 1
   end
 
   it 'increment' do
