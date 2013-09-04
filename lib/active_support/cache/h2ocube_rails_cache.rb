@@ -15,10 +15,12 @@ module ActiveSupport
         @data.keys key
       end
 
-      def fetch key, options = nil
+      def fetch key, options = nil, &blk
         key = expanded_key key
-        write key, yield, options if block_given? && !exist?(key)
-        read key, options
+
+        return read(key, options) if exist?(key)
+
+        write key, blk, options if block_given?
       end
 
       def read key, options = nil
@@ -40,8 +42,14 @@ module ActiveSupport
       def write key, entry, options = nil
         key = expanded_key key
         return false if key.start_with?('http')
-        @data.set key, dump_entry(entry), options
-        true
+        entry = dump_entry entry
+        if entry.nil?
+          Rails.logger.warn "CacheWarn: '#{key}' is not cacheable!"
+          nil
+        else
+          @data.set key, entry, options
+          load_entry entry
+        end
       end
 
       def delete key, options = nil
@@ -90,11 +98,17 @@ module ActiveSupport
 
       def dump_entry entry
         entry = entry.call if entry.class.to_s == 'Proc'
+
         case entry.class.to_s
         when 'String', 'Fixnum', 'Float'
           entry
         else
-          Marshal.dump entry
+          begin
+            Marshal.dump entry
+          rescue Exception => e
+            Rails.logger.error "CacheError: #{e}"
+            return nil
+          end
         end
       end
 

@@ -17,6 +17,19 @@ And then execute:
 
 Disable default session_store in config/initializers/session_store.rb
 
+## Rails.cache support methods
+
+* `keys key = '*'`
+* `read key, options = nil`
+* `write key, entry, options = nil`
+* `fetch key, options = nil, &blk`
+* `delete key, options = nil`
+* `exist? key, options = nil`
+* `increment key, amount = 1, options = nil`
+* `decrement key, amount = 1, options = nil`
+* `clear`
+* `info`
+
 ## Task changed
 
     rake tmp:sessions:clear # will clear redis session data too

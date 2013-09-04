@@ -101,6 +101,16 @@ describe 'h2ocube_rails_cache' do
     sleep 2
     Rails.cache.exist?('fetch expire').must_be_same_as false
   end
+
+  it 'fetch with error block' do
+    Rails.cache.fetch 'fetch error' do
+      {
+        proc: -> {}
+      }
+    end.must_be_nil
+
+    Rails.cache.exist?('fetch error').must_be_same_as false
+  end
 end
 
 describe ApplicationController do
