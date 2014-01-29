@@ -7,7 +7,7 @@ module ActiveSupport
       def initialize(options = nil, &blk)
         options ||= {}
         super(options)
-        @data = Redis::Namespace.new(Rails.application.class.to_s.split("::").first << ':Cache', redis: Redis::Store.new)
+        @data = Redis::Namespace.new("#{Rails.application.class.to_s.split("::").first}:#{Rails.env}:Cache", redis: Redis::Store.new)
       end
 
       def keys key = '*'

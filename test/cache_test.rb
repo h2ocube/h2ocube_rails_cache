@@ -3,7 +3,7 @@ require 'test_helper'
 describe 'h2ocube_rails_cache' do
   before do
     @redis = Redis.new
-    @cache_key = Rails.application.class.to_s.split("::").first << ':Cache'
+    @cache_key = "#{Rails.application.class.to_s.split("::").first}:#{Rails.env}:Cache"
     @cache = Redis::Namespace.new(@cache_key)
     Rails.cache.clear
   end

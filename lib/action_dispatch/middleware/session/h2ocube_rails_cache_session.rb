@@ -13,7 +13,7 @@ module ActionDispatch
       end
 
       def self.clear
-        r = Redis::Namespace.new(Rails.application.class.to_s.split("::").first << ':Session', redis: Redis::Store.new)
+        r = Redis::Namespace.new("#{Rails.application.class.to_s.split("::").first}:#{Rails.env}:Session", redis: Redis::Store.new)
         r.keys('*').each{ |k| r.del k }
         true
       end
