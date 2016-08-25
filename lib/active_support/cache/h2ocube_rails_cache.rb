@@ -7,86 +7,97 @@ module ActiveSupport
       def initialize(options = nil, &blk)
         options ||= {}
         super(options)
-        @data = Redis::Namespace.new("#{Rails.application.class.to_s.split("::").first}:#{Rails.env}:Cache", redis: Redis::Store.new)
+        @data = Redis::Namespace.new("#{Rails.application.class.to_s.split('::').first}:#{Rails.env}:Cache", redis: Redis::Store.new)
       end
 
-      def keys key = '*'
+      def keys(key = '*')
         key = expanded_key key
         @data.keys key
       end
 
-      def fetch key, options = nil, &blk
+      def fetch(key, options = nil, &block)
         key = expanded_key key
 
-        return read(key, options) if exist?(key)
-
-        write key, blk, options if block_given?
-      end
-
-      def read key, options = nil
-        key = expanded_key key
-        return nil if key.start_with?('http')
-        if exist? key
-          load_entry(@data.get key)
-        else
-          nil
+        instrument :fetch, key, options do
+          exist?(key) ? read(key, options) : write(key, block, options)
         end
       end
 
-      def read_raw key, options = nil
+      def read(key, options = nil)
+        key = expanded_key key
+        return nil if key.start_with?('http')
+        instrument :read, key, options do
+          exist?(key) ? load_entry(@data.get(key)) : nil
+        end
+      end
+
+      def read_raw(key, _options = nil)
         key = expanded_key key
         @data.get key
       end
 
-
-      def write key, entry, options = nil
+      def write(key, entry, options = nil)
         key = expanded_key key
         return false if key.start_with?('http')
-        entry = dump_entry entry
-        if entry.nil?
-          Rails.logger.warn "CacheWarn: '#{key}' is not cacheable!"
-          nil
-        else
-          @data.set key, entry, options
-          load_entry entry
+
+        instrument :write, key, options do
+          entry = dump_entry entry
+          if entry.nil?
+            Rails.logger.warn "CacheWarn: '#{key}' is not cacheable!"
+            nil
+          else
+            @data.set key, entry, options
+            load_entry entry
+          end
         end
       end
 
-      def delete key, options = nil
+      def delete(key, options = nil)
         key = expanded_key key
-        @data.keys(key).each{ |k| @data.del k }
-        true
+
+        instrument :delete, key, options do
+          @data.keys(key).each { |k| @data.del k }
+          true
+        end
       end
 
-      def exist? key, options = nil
+      def exist?(key, _options = nil)
         key = expanded_key key
         @data.exists key
       end
 
       def clear
-        @data.keys('*').each{ |k| @data.del k }
-        true
+        instrument :clear, nil, nil do
+          @data.keys('*').each { |k| @data.del k }
+          true
+        end
       end
 
       def info
         @data.info
       end
 
-      def increment key, amount = 1, options = nil
+      def increment(key, amount = 1, _options = nil)
         key = expanded_key key
-        if amount == 1
-          @data.incr key
-        else
-          @data.incrby key, amount
+
+        instrument :increment, key, amount do
+          if amount == 1
+            @data.incr key
+          else
+            @data.incrby key, amount
+          end
         end
       end
 
-      def decrement key, amount = 1, options = nil
+      def decrement(key, amount = 1, _options = nil)
         key = expanded_key key
-        if amount == 1
-          @data.decr key
-        else
-          @data.decrby key, amount
+
+        instrument :decrement, key, amount do
+          if amount == 1
+            @data.decr key
+          else
+            @data.decrby key, amount
+          end
         end
       end
 
@@ -96,7 +107,18 @@ module ActiveSupport
 
       private
 
-      def dump_entry entry
+      def instrument(operation, key, options = nil)
+        payload = { key: key }
+        payload.merge!(options) if options.is_a?(Hash)
+        ActiveSupport::Notifications.instrument("cache_#{operation}.active_support", payload) { yield(payload) }
+      end
+
+      def log(operation, key, options = nil)
+        return unless logger && logger.debug? && !silence?
+        logger.debug("  \e[95mCACHE #{operation}\e[0m #{key}#{options.blank? ? "" : " (#{options.inspect})"}")
+      end
+
+      def dump_entry(entry)
         entry = entry.call if entry.class.to_s == 'Proc'
 
         case entry.class.to_s
@@ -112,7 +134,7 @@ module ActiveSupport
         end
       end
 
-      def load_entry entry
+      def load_entry(entry)
         begin
           Marshal.load entry
         rescue

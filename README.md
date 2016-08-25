@@ -30,6 +30,10 @@ Disable default session_store in config/initializers/session_store.rb
 * `clear`
 * `info`
 
+## Support Options
+
+* `expires_in` # Rails.cache.write 'key', 'value', expires_in: 1.minute
+
 ## Task changed
 
     rake tmp:sessions:clear # will clear redis session data too
