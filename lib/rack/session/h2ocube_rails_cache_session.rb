@@ -4,7 +4,7 @@ require 'rack/session/abstract/id'
 
 module Rack
   module Session
-    class H2ocubeRailsCacheSession < Abstract::ID
+    class H2ocubeRailsCacheSession < Abstract::Persisted
       attr_reader :mutex, :pool
 
       DEFAULT_OPTIONS = Abstract::ID::DEFAULT_OPTIONS.merge \

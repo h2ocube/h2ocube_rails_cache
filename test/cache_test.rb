@@ -115,7 +115,7 @@ end
 
 describe ApplicationController do
   it 'get home' do
-    get :home
+    get '/'
     assert_response :success
   end
 end
