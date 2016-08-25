@@ -15,15 +15,32 @@ module ActiveSupport
         @data.keys key
       end
 
-      def fetch(key, options = nil, &block)
+      def fetch(key, options = {}, &block)
         key = expanded_key key
 
+        if options.key?(:force)
+          result = options[:force].is_a?(Proc) ? options[:force].call(key, options) : options[:force]
+          if result
+            fetch_raw key, options do
+              yield
+            end
+          else
+            write key, yield, options
+          end
+        else
+          fetch_raw(key, options) do
+            yield
+          end
+        end
+      end
+
+      def fetch_raw(key, options = {}, &block)
         instrument :fetch, key, options do
           exist?(key) ? read(key, options) : write(key, block, options)
         end
       end
 
-      def read(key, options = nil)
+      def read(key, options = {})
         key = expanded_key key
         return nil if key.start_with?('http')
         instrument :read, key, options do
@@ -31,12 +48,12 @@ module ActiveSupport
         end
       end
 
-      def read_raw(key, _options = nil)
+      def read_raw(key, _options = {})
         key = expanded_key key
         @data.get key
       end
 
-      def write(key, entry, options = nil)
+      def write(key, entry, options = {})
         key = expanded_key key
         return false if key.start_with?('http')
 
@@ -47,12 +64,13 @@ module ActiveSupport
             nil
           else
             @data.set key, entry, options
+            @data.set "#{key}_updated_at", Time.now.to_i if options[:updated_at]
             load_entry entry
           end
         end
       end
 
-      def delete(key, options = nil)
+      def delete(key, options = {})
         key = expanded_key key
 
         instrument :delete, key, options do
@@ -61,7 +79,7 @@ module ActiveSupport
         end
       end
 
-      def exist?(key, _options = nil)
+      def exist?(key, _options = {})
         key = expanded_key key
         @data.exists key
       end
@@ -77,7 +95,7 @@ module ActiveSupport
         @data.info
       end
 
-      def increment(key, amount = 1, _options = nil)
+      def increment(key, amount = 1, _options = {})
         key = expanded_key key
 
         instrument :increment, key, amount do
@@ -89,7 +107,7 @@ module ActiveSupport
         end
       end
 
-      def decrement(key, amount = 1, _options = nil)
+      def decrement(key, amount = 1, _options = {})
         key = expanded_key key
 
         instrument :decrement, key, amount do
@@ -107,13 +125,13 @@ module ActiveSupport
 
       private
 
-      def instrument(operation, key, options = nil)
+      def instrument(operation, key, options = {})
         payload = { key: key }
         payload.merge!(options) if options.is_a?(Hash)
         ActiveSupport::Notifications.instrument("cache_#{operation}.active_support", payload) { yield(payload) }
       end
 
-      def log(operation, key, options = nil)
+      def log(operation, key, options = {})
         return unless logger && logger.debug? && !silence?
         logger.debug("  \e[95mCACHE #{operation}\e[0m #{key}#{options.blank? ? "" : " (#{options.inspect})"}")
       end

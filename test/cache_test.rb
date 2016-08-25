@@ -111,6 +111,43 @@ describe 'h2ocube_rails_cache' do
 
     Rails.cache.exist?('fetch error').must_be_same_as false
   end
+
+  it 'fetch with force' do
+    Rails.cache.write 'fetch force', 'content'
+
+    Rails.cache.fetch 'fetch force', force: true do
+      'true'
+    end.must_equal 'content'
+
+    Rails.cache.fetch 'fetch force', force: -> (key, options) { true } do
+      'true'
+    end.must_equal 'content'
+
+    Rails.cache.fetch 'fetch force', force: false do
+      'false'
+    end.must_equal 'false'
+
+    Rails.cache.fetch 'fetch force', force: -> (key, options) { false } do
+      'false again'
+    end.must_equal 'false again'
+  end
+
+  it 'fetch with updated_at' do
+    Rails.cache.fetch 'fetch updated_at', updated_at: true do
+      'content'
+    end.must_equal 'content'
+
+    Rails.cache.exist?('fetch updated_at_updated_at').must_be_same_as true
+
+    sleep 1
+
+    now = Time.now.to_i
+    Rails.cache.fetch 'fetch updated_at', updated_at: true, force: -> (key, options) { now < Rails.cache.read("#{key}_updated_at") } do
+      'new content'
+    end.must_equal 'new content'
+
+    Rails.cache.read('fetch updated_at_updated_at').must_equal now
+  end
 end
 
 describe ApplicationController do

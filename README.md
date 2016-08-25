@@ -22,7 +22,7 @@ Disable default session_store in config/initializers/session_store.rb
 * `keys key = '*'`
 * `read key, options = nil`
 * `write key, entry, options = nil`
-* `fetch key, options = nil, &blk`
+* `fetch key, options = nil, &block`
 * `delete key, options = nil`
 * `exist? key, options = nil`
 * `increment key, amount = 1, options = nil`
@@ -30,9 +30,15 @@ Disable default session_store in config/initializers/session_store.rb
 * `clear`
 * `info`
 
-## Support Options
+## Write Options
 
-* `expires_in` # Rails.cache.write 'key', 'value', expires_in: 1.minute
+* `created_at` will write timestamp with key_created_at
+
+## Fetch Options
+
+* `expires_in` such as 5.minutes
+* `if` true / false or Proc that return true / false
+* `created_at` will write timestamp with key_created_at
 
 ## Task changed
 
