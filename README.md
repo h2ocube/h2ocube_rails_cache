@@ -20,25 +20,25 @@ Disable default session_store in config/initializers/session_store.rb
 ## Rails.cache support methods
 
 * `keys key = '*'`
-* `read key, options = nil`
-* `write key, entry, options = nil`
-* `fetch key, options = nil, &block`
-* `delete key, options = nil`
-* `exist? key, options = nil`
-* `increment key, amount = 1, options = nil`
-* `decrement key, amount = 1, options = nil`
+* `read key, options = {}`
+* `write key, entry, options = {}`
+* `fetch key, options = {}, &block`
+* `delete key, options = {}`
+* `exist? key, options = {}`
+* `increment key, amount = 1, options = {}`
+* `decrement key, amount = 1, options = {}`
 * `clear`
 * `info`
 
 ## Write Options
 
-* `created_at` will write timestamp with key_created_at
+* `updated_at` will write timestamp with key_updated_at
 
 ## Fetch Options
 
 * `expires_in` such as 5.minutes
-* `if` true / false or Proc that return true / false
-* `created_at` will write timestamp with key_created_at
+* `force` true / false or Proc that return true / false
+* `updated_at` will write timestamp with key_updated_at
 
 ## Task changed
 

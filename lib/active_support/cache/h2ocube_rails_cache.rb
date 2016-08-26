@@ -18,19 +18,23 @@ module ActiveSupport
       def fetch(key, options = {}, &block)
         key = expanded_key key
 
-        if options.key?(:force)
-          result = options[:force].is_a?(Proc) ? options[:force].call(key, options) : options[:force]
-          if result
-            fetch_raw key, options do
-              yield
+        if exist?(key)
+          if options.key?(:force)
+            force = options[:force].is_a?(Proc) ? options[:force].call(key, options) : options[:force]
+            if force
+              write key, yield, options
+            else
+              fetch_raw key, options do
+                yield
+              end
             end
           else
-            write key, yield, options
+            fetch_raw(key, options) do
+              yield
+            end
           end
         else
-          fetch_raw(key, options) do
-            yield
-          end
+          write key, yield, options
         end
       end
 

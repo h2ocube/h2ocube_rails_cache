@@ -117,19 +117,19 @@ describe 'h2ocube_rails_cache' do
 
     Rails.cache.fetch 'fetch force', force: true do
       'true'
-    end.must_equal 'content'
+    end.must_equal 'true'
 
     Rails.cache.fetch 'fetch force', force: -> (key, options) { true } do
-      'true'
-    end.must_equal 'content'
+      'true again'
+    end.must_equal 'true again'
 
     Rails.cache.fetch 'fetch force', force: false do
       'false'
-    end.must_equal 'false'
+    end.must_equal 'true again'
 
     Rails.cache.fetch 'fetch force', force: -> (key, options) { false } do
       'false again'
-    end.must_equal 'false again'
+    end.must_equal 'true again'
   end
 
   it 'fetch with updated_at' do
@@ -142,7 +142,7 @@ describe 'h2ocube_rails_cache' do
     sleep 1
 
     now = Time.now.to_i
-    Rails.cache.fetch 'fetch updated_at', updated_at: true, force: -> (key, options) { now < Rails.cache.read("#{key}_updated_at") } do
+    Rails.cache.fetch 'fetch updated_at', updated_at: true, force: -> (key, options) { now > Rails.cache.read("#{key}_updated_at") } do
       'new content'
     end.must_equal 'new content'
 
