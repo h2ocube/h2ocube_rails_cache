@@ -21,6 +21,7 @@ Disable default session_store in config/initializers/session_store.rb
 
 * `keys key = '*'`
 * `read key, options = {}`
+* `read_multi *keys`
 * `write key, entry, options = {}`
 * `fetch key, options = {}, &block`
 * `delete key, options = {}`

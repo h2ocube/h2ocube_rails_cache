@@ -57,6 +57,18 @@ module ActiveSupport
         @data.get key
       end
 
+      def read_multi(*names)
+        results = {}
+
+        names.each do |name|
+          entry = read(name)
+
+          results[name] = entry unless entry.nil?
+        end
+
+        results
+      end
+
       def write(key, entry, options = {})
         key = expanded_key key
         return false if key.start_with?('http')
