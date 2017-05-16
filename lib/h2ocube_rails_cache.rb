@@ -34,4 +34,10 @@ module H2ocubeRailsCache
       load 'tasks/tmp.rake'
     end
   end
+
+  class Config
+    def self.path
+      "#{Rails.application.class.to_s.split("::").first}:#{Rails.env}#{ENV['TEST_ENV_NUMBER']}"
+    end
+  end
 end
