@@ -14,7 +14,7 @@ module Rack
         super
 
         @mutex = Mutex.new
-        @pool = Redis::Namespace.new("#{Rails.application.class.to_s.split("::").first}:#{Rails.env}:Session", redis: Redis::Store.new)
+        @pool = Redis::Namespace.new("#{::H2ocubeRailsCache::Config.path}:Session", redis: Redis::Store.new)
       end
 
       def generate_sid
