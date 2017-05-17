@@ -2,15 +2,11 @@ require 'test_helper'
 
 describe 'h2ocube_rails_cache' do
   before do
-    @redis = Redis.new
-    @cache_key = "#{Rails.application.class.to_s.split("::").first}:#{Rails.env}:Cache"
-    @cache = Redis::Namespace.new(@cache_key)
     Rails.cache.clear
   end
 
   it 'should work' do
     Rails.cache.class.to_s.must_equal 'ActiveSupport::Cache::H2ocubeRailsCache'
-    Rails.application.config.session_store.to_s.must_equal 'ActionDispatch::Session::H2ocubeRailsCacheSession'
   end
 
   it '.keys' do
@@ -20,8 +16,6 @@ describe 'h2ocube_rails_cache' do
   it '.clear' do
     Rails.cache.clear.must_be_same_as true
     Rails.cache.keys('*').must_be_empty
-
-    @redis.keys(@cache_key).must_be_empty
   end
 
   it '.write, .exist?, .read and .delete' do
@@ -30,8 +24,6 @@ describe 'h2ocube_rails_cache' do
     Rails.cache.exist?('a').must_be_same_as true
 
     Rails.cache.read('a').must_equal true
-
-    Marshal.load(@redis.get("#{@cache_key}:a")).must_equal true
 
     Rails.cache.delete('a').must_be_same_as true
 
@@ -42,7 +34,7 @@ describe 'h2ocube_rails_cache' do
 
   it 'expire' do
     Rails.cache.delete 'expire'
-    Rails.cache.write 'expire', 1, expires_in: 1
+    Rails.cache.write 'expire', true, expires_in: 1.second
     Rails.cache.exist?('expire').must_be_same_as true
     sleep 2
     Rails.cache.exist?('expire').must_be_same_as false
@@ -50,11 +42,11 @@ describe 'h2ocube_rails_cache' do
 
   it 'key class' do
     Rails.cache.write ['a', 0], 'a0'
-    Rails.cache.keys[0].must_equal 'a/0'
+    Rails.cache.keys[0].must_equal "#{Rails.cache.config[:namespace]}:a/0"
     Rails.cache.clear
 
-    Rails.cache.write({a: 0}, 'a0')
-    Rails.cache.keys[0].must_equal 'a=0'
+    Rails.cache.write({ a: 0 }, 'a0')
+    Rails.cache.keys[0].must_equal "#{Rails.cache.config[:namespace]}:a=0"
     Rails.cache.clear
   end
 
@@ -62,13 +54,13 @@ describe 'h2ocube_rails_cache' do
     Rails.cache.write 'String', 'String'
     Rails.cache.read_raw('String').must_be_kind_of String
 
-    Rails.cache.write 'Fixnum', 1
-    Rails.cache.read('Fixnum').must_be_kind_of Fixnum
+    Rails.cache.write 'Integer', 1
+    Rails.cache.read('Integer').must_be_kind_of Integer
 
     Rails.cache.write 'Float', 1.1
     Rails.cache.read('Float').must_be_kind_of Float
 
-    Rails.cache.write 'Proc', Proc.new{ 1 }
+    Rails.cache.write 'Proc', proc { 1 }
     Rails.cache.read('Proc').must_equal 1
   end
 

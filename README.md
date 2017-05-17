@@ -3,19 +3,17 @@
 [![Gem Version](https://badge.fury.io/rb/h2ocube_rails_cache.png)](http://badge.fury.io/rb/h2ocube_rails_cache)
 [![Build Status](https://travis-ci.org/h2ocube/h2ocube_rails_cache.png?branch=master)](https://travis-ci.org/h2ocube/h2ocube_rails_cache)
 
-Just an redis cache.
+Just an redis cache. Default expires_in `60.minutes`.
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
-    gem 'h2ocube_rails_cache', group: :production
+    gem 'h2ocube_rails_cache'
 
 And then execute:
 
     $ bundle
-
-Disable default session_store in config/initializers/session_store.rb
 
 ## Rails.cache support methods
 
