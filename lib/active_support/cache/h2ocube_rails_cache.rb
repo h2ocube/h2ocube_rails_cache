@@ -115,7 +115,7 @@ module ActiveSupport
 
       def clear
         instrument :clear, nil, nil do
-          @data.keys('*').each { |k| @data.del k }
+          keys('*').each { |k| @data.del k }
           true
         end
       end
