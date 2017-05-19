@@ -26,6 +26,7 @@ And then execute:
 * `exist? key, options = {}`
 * `increment key, amount = 1, options = {}`
 * `decrement key, amount = 1, options = {}`
+* `expire time`
 * `clear`
 * `info`
 
