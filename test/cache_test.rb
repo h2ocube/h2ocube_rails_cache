@@ -32,9 +32,17 @@ describe 'h2ocube_rails_cache' do
     Rails.cache.read('a').must_be_nil
   end
 
-  it 'expire' do
+  it '#write expire' do
     Rails.cache.delete 'expire'
     Rails.cache.write 'expire', true, expires_in: 1.second
+    Rails.cache.exist?('expire').must_be_same_as true
+    sleep 2
+    Rails.cache.exist?('expire').must_be_same_as false
+  end
+
+  it '#expire' do
+    Rails.cache.write 'expire', true
+    Rails.cache.expire 'expire', 1.second
     Rails.cache.exist?('expire').must_be_same_as true
     sleep 2
     Rails.cache.exist?('expire').must_be_same_as false

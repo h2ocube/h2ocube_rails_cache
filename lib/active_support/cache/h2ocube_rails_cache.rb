@@ -124,6 +124,15 @@ module ActiveSupport
         @data.info
       end
 
+      def expire(key, expires_in)
+        options.reverse_merge! config
+        key = normalize_key key, options
+
+        instrument :expire, key, expires_in: expires_in.to_i do
+          @data.expire key, expires_in.to_i
+        end
+      end
+
       def increment(key, amount = 1, options = {})
         options.reverse_merge! config
         key = normalize_key key, options
