@@ -45,6 +45,10 @@ And then execute:
     rake tmp:sessions:clear # will clear redis session data too
     rake tmp:cache:clear # will run Rails.clear too
 
+## ENV
+
+* `ENV['REDIS_URL']` default is `redis://127.0.0.1:6379/0`
+
 ## Contributing
 
 1. Fork it
