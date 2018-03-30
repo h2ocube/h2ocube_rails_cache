@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |gem|
   gem.name          = 'h2ocube_rails_cache'
-  gem.version       = '0.1.3'
+  gem.version       = '0.2.0'
   gem.authors       = ['Ben']
   gem.email         = ['ben@h2ocube.com']
   gem.description   = 'Just an redis cache.'
@@ -18,6 +18,7 @@ Gem::Specification.new do |gem|
   gem.require_paths = ['lib']
 
   gem.add_dependency 'redis'
+  gem.add_dependency 'hiredis'
 
   %w[rails minitest-rails].each { |g| gem.add_development_dependency g }
 end
