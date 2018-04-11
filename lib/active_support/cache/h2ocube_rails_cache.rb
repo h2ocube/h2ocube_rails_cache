@@ -115,7 +115,7 @@ module ActiveSupport
 
       def clear
         instrument :clear, nil, nil do
-          keys('*').each { |k| @data.del k }
+          keys.each_slice(1000) { |key_slice| @data.del(*key_slice) }
           true
         end
       end
