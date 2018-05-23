@@ -32,11 +32,12 @@ And then execute:
 
 ## Write Options
 
+* `expires_in` such as 5.minutes, when value is nil, will not be expired
 * `updated_at` will write timestamp with key_updated_at
 
 ## Fetch Options
 
-* `expires_in` such as 5.minutes
+* `expires_in` such as 5.minutes, when value is nil, will not be expired
 * `force` true / false or Proc that return true / false
 * `updated_at` will write timestamp with key_updated_at
 

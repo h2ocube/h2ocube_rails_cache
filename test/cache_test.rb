@@ -40,6 +40,14 @@ describe 'h2ocube_rails_cache' do
     Rails.cache.exist?('expire').must_be_same_as false
   end
 
+  it '#write expire_in nil' do
+    Rails.cache.delete 'expire'
+    Rails.cache.write 'expire', true, expires_in: nil
+    Rails.cache.exist?('expire').must_be_same_as true
+    sleep 2
+    Rails.cache.exist?('expire').must_be_same_as true
+  end
+
   it '#expire' do
     Rails.cache.write 'expire', true
     Rails.cache.expire 'expire', 1.second
@@ -119,7 +127,7 @@ describe 'h2ocube_rails_cache' do
       'true'
     end.must_equal 'true'
 
-    Rails.cache.fetch 'fetch force', force: -> (key, options) { true } do
+    Rails.cache.fetch 'fetch force', force: -> (_key, _options) { true } do
       'true again'
     end.must_equal 'true again'
 
@@ -127,7 +135,7 @@ describe 'h2ocube_rails_cache' do
       'false'
     end.must_equal 'true again'
 
-    Rails.cache.fetch 'fetch force', force: -> (key, options) { false } do
+    Rails.cache.fetch 'fetch force', force: -> (_key, _options) { false } do
       'false again'
     end.must_equal 'true again'
   end

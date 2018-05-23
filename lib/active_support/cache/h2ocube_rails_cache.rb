@@ -8,19 +8,18 @@ module ActiveSupport
       def initialize(options = {})
         options ||= {}
         @config = options
+        @namespace = options[:namespace]
         @data = Redis.new(options)
         super(options)
       end
 
       def keys(key = '*')
-        options.reverse_merge! config
-        key = normalize_key key, config
+        key = normalize_key key
         @data.keys key
       end
 
       def fetch(key, options = {}, &block)
-        options.reverse_merge! config
-        key = normalize_key(key, options)
+        key = normalize_key key
 
         if @data.exists(key)
           if options.key?(:force)
@@ -43,8 +42,7 @@ module ActiveSupport
       end
 
       def fetch_raw(key, options = {}, &block)
-        options.reverse_merge! config
-        key = normalize_key key, options
+        key = normalize_key key
         instrument :fetch, key, options do
           exist?(key) ? read(key) : write(key, block, options)
         end
@@ -52,7 +50,7 @@ module ActiveSupport
 
       def read(key, options = {})
         options.reverse_merge! config
-        key = normalize_key key, options
+        key = normalize_key key
         return nil if key.start_with?('http')
         instrument :read, key, options do
           exist?(key) ? load_entry(@data.get(key)) : nil
@@ -61,7 +59,7 @@ module ActiveSupport
 
       def read_raw(key, options = {})
         options.reverse_merge! config
-        key = normalize_key key, options
+        key = normalize_key key
         @data.get key
       end
 
@@ -77,9 +75,9 @@ module ActiveSupport
         results
       end
 
-      def write(key, entry, options = {})
-        options.reverse_merge! config
-        key = normalize_key(key, options)
+      def write(key, entry, opts = {})
+        options = opts.reverse_merge config
+        key = normalize_key key
 
         return false if key.start_with?('http')
 
@@ -89,9 +87,13 @@ module ActiveSupport
             Rails.logger.warn "CacheWarn: '#{key}' is not cacheable!"
             nil
           else
-            expires_in = options[:expires_in].to_i
-            @data.setex key, expires_in, entry
-            @data.setex "#{key}_updated_at", expires_in, Time.now.to_i if options[:updated_at]
+            if opts.key?(:expires_in) && opts[:expires_in].nil?
+              @data.set key, entry
+            else
+              expires_in = options[:expires_in].to_i
+              @data.setex key, expires_in, entry
+              @data.setex "#{key}_updated_at", expires_in, Time.now.to_i if options[:updated_at]
+            end
             load_entry entry
           end
         end
@@ -99,7 +101,7 @@ module ActiveSupport
 
       def delete(key, options = {})
         options.reverse_merge! config
-        key = normalize_key key, options
+        key = normalize_key key
 
         instrument :delete, key, options do
           @data.keys(key).each { |k| @data.del k }
@@ -107,9 +109,8 @@ module ActiveSupport
         end
       end
 
-      def exist?(key, options = {})
-        options.reverse_merge! config
-        key = normalize_key key, options
+      def exist?(key)
+        key = normalize_key key
         @data.exists key
       end
 
@@ -126,7 +127,7 @@ module ActiveSupport
 
       def expire(key, expires_in)
         options.reverse_merge! config
-        key = normalize_key key, options
+        key = normalize_key key
 
         instrument :expire, key, expires_in: expires_in.to_i do
           @data.expire key, expires_in.to_i
@@ -135,7 +136,7 @@ module ActiveSupport
 
       def increment(key, amount = 1, options = {})
         options.reverse_merge! config
-        key = normalize_key key, options
+        key = normalize_key key
 
         instrument :increment, key, amount: amount do
           if amount == 1
@@ -148,7 +149,7 @@ module ActiveSupport
 
       def decrement(key, amount = 1, options = {})
         options.reverse_merge! config
-        key = normalize_key key, options
+        key = normalize_key key
 
         instrument :decrement, key, amount: amount do
           if amount == 1
@@ -165,24 +166,24 @@ module ActiveSupport
 
       private
 
-      def normalize_key(key, options)
+      def normalize_key(key)
         key = expanded_key(key)
-        namespace = options[:namespace] if options
-        prefix = namespace.is_a?(Proc) ? namespace.call : namespace
-        key = "#{prefix}:#{key}" if prefix && !key.start_with?(prefix)
+        key = "#{namespace}:#{key}" if !key.start_with?(namespace)
         key
       end
 
-      # def instrument(operation, key, options = {})
-      #   payload = { key: key }
-      #   payload.merge!(options) if options.is_a?(Hash)
-      #   ActiveSupport::Notifications.instrument("cache_#{operation}.active_support", payload) { yield(payload) }
-      # end
-      #
-      # def log(operation, key, options = {})
-      #   return unless logger && logger.debug? && !silence?
-      #   logger.debug("  \e[95mCACHE #{operation}\e[0m #{key}#{options.blank? ? "" : " (#{options.inspect})"}")
-      # end
+      def instrument(operation, key, options = nil)
+        log { "Cache #{operation}: #{key}#{" (#{options.inspect})" unless options.blank?}" }
+
+        payload = { key: key }
+        payload.merge!(options) if options.is_a?(Hash)
+        ActiveSupport::Notifications.instrument("cache_#{operation}.active_support", payload) { yield(payload) }
+      end
+
+      def log
+        return unless logger && logger.debug? && !silence?
+        logger.debug(yield)
+      end
 
       def dump_entry(entry)
         entry = entry.call if entry.class.to_s == 'Proc'
