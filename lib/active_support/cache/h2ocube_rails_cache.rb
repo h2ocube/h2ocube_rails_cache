@@ -70,7 +70,7 @@ module ActiveSupport
         names.zip(values).each_with_object({}) do |(name, value), results|
           if value
             entry = load_entry(value)
-            results[name] = entry.value unless entry.nil?
+            results[name] = entry unless entry.nil?
           end
         end
       end
