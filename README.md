@@ -21,6 +21,7 @@ And then execute:
 * `read key, options = {}`
 * `read_multi *keys`
 * `write key, entry, options = {}`
+* `write_multi hash`
 * `fetch key, options = {}, &block`
 * `delete key, options = {}`
 * `exist? key, options = {}`

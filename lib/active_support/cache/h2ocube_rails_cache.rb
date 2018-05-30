@@ -53,7 +53,7 @@ module ActiveSupport
         key = normalize_key key
         return nil if key.start_with?('http')
         instrument :read, key, options do
-          exist?(key) ? load_entry(@data.get(key)) : nil
+          load_entry @data.get(key)
         end
       end
 
@@ -64,15 +64,15 @@ module ActiveSupport
       end
 
       def read_multi(*names)
-        results = {}
+        keys = names.map { |name| normalize_key(name) }
+        values = @data.mget(*keys)
 
-        names.each do |name|
-          entry = read(name)
-
-          results[name] = entry unless entry.nil?
+        names.zip(values).each_with_object({}) do |(name, value), results|
+          if value
+            entry = load_entry(value)
+            results[name] = entry.value unless entry.nil?
+          end
         end
-
-        results
       end
 
       def write(key, entry, opts = {})
@@ -96,6 +96,16 @@ module ActiveSupport
             end
             load_entry entry
           end
+        end
+      end
+
+      def write_multi(hash)
+        instrument :write_multi, hash do
+          entries = hash.each_with_object({}) do |(name, value), memo|
+            memo[normalize_key(name)] = dump_entry value
+          end
+
+          @data.mapped_mset entries
         end
       end
 
@@ -202,6 +212,8 @@ module ActiveSupport
       end
 
       def load_entry(entry)
+        return nil if entry.nil?
+
         begin
           Marshal.load(entry)
         rescue
