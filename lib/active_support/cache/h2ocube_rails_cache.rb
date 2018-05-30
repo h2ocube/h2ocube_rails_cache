@@ -64,15 +64,11 @@ module ActiveSupport
       end
 
       def read_multi(*names)
-        keys = names.map { |name| normalize_key(name) }
-        values = @data.mget(*keys)
-
-        names.zip(values).each_with_object({}) do |(name, value), results|
-          if value
-            entry = load_entry(value)
-            results[name] = entry unless entry.nil?
-          end
+        result = {}
+        names.each do |name|
+          result[name] = read name
         end
+        result
       end
 
       def write(key, entry, opts = {})
