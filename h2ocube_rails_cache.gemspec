@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |gem|
   gem.name          = 'h2ocube_rails_cache'
-  gem.version       = '0.3.1'
+  gem.version       = '0.3.2'
   gem.authors       = ['Ben']
   gem.email         = ['ben@h2ocube.com']
   gem.description   = 'Just an redis cache.'
