@@ -110,7 +110,7 @@ module ActiveSupport
         key = normalize_key key
 
         instrument :delete, key, options do
-          @data.keys(key).each { |k| @data.del k }
+          @data.del key
           true
         end
       end
